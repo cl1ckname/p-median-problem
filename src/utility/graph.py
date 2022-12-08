@@ -38,6 +38,7 @@ class Network:
 		minimal_distances = self.getDistanceList(verties)
 		return np.sum(minimal_distances)
 
+	@lru_cache()
 	def get_conjugate_vertices(self, n: int):
 		neighbors = self.graph.neighbors(n)
 		data: list[NeightborData] = []

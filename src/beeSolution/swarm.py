@@ -36,12 +36,12 @@ class Scout(Agent):
 		self.pos = newPos.n
 	
 	def step(self):
-		self.rotation
+		self.rotation()
 
 class Seeker(Agent):
 
 	def step(self):
-		self.rotation
+		self.rotation()
 
 class Swarm:
 	DASH = 10
@@ -105,7 +105,8 @@ class Swarm:
 				self.step()
 				for agent in self.agents:
 					self.visited.add(agent.pos)
-					self.visited_hist.append(len(self.visited))
+					
+			self.visited_hist.append(len(self.visited))
 			self.place(self.best_postition)
 
 			weight = self.weight()
