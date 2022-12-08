@@ -23,24 +23,15 @@ DASH = 10
 # print(network.get_conjugate_vertices(6))
 # print(network.weight([0,1,2]))
 
-network = Network.random(50, 1500)
+network = Network.random(1000, 100000)
 
-swarm = Swarm(3, network)
-swarm.agents = [
-	Scout(network) for _ in range(3)
-]
+swarm = Swarm(6, network, 0.5, attraction=30)
 swarm.init()
 
-for i in range(5):
-	print('-' * DASH, i+1, 'ITERATION' , '-' * DASH)
-	for _ in range(15):
-		swarm.step()
-	swarm.place(swarm.best_postition)
-	print('Sum of distances', swarm.weight())
-	print('Best position', swarm.best_postition)
-	print()
+_, _, weights = swarm.run(1000, 25, False)
 
-print('-' * DASH, 'SUMMARY', '-' * DASH)
-print('Best position', swarm.best_postition)
-print('Distances', swarm.network.getDistanceList(swarm.best_postition))
-print('Sum of distances', swarm.weight())
+
+plt.grid()
+plt.plot(weights)
+
+plt.show()

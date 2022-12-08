@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from random import randint
+from methodtools import lru_cache
 import networkx as nx
 import numpy as np
 
@@ -19,6 +20,7 @@ class Network:
 			matrix = np.array(matrix)
 		self.graph: nx.DiGraph = nx.from_numpy_matrix(matrix)
 
+	@lru_cache()
 	def bellman(self, n: int):
 		assert isinstance(n, int)
 		
@@ -49,7 +51,7 @@ class Network:
 		return data
 
 	@staticmethod
-	def random(n: int, m: int, max_weight: int = 10):
+	def random(n: int, m: int, max_weight: int = 100):
 		base = Network(nx.gnm_random_graph(n, m, directed=True, seed=42))
 		for e in base.graph.edges():
 			base.graph[e[0]][e[1]]['weight'] = randint(1, max_weight)
