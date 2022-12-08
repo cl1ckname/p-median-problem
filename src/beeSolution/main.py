@@ -23,15 +23,16 @@ DASH = 10
 # print(network.get_conjugate_vertices(6))
 # print(network.weight([0,1,2]))
 
-network = Network.random(1000, 100000)
+network = Network.random(100, 3000)
 
 swarm = Swarm(6, network, 0.5, attraction=30)
 swarm.init()
 
-_, _, weights = swarm.run(1000, 25, False)
+_, _, weights, vis = swarm.run(1000, 25, False)
 
 
 plt.grid()
-plt.plot(weights)
-
+fig, ax = plt.subplots(2)
+ax[0].plot(weights)
+ax[1].plot(vis)
 plt.show()

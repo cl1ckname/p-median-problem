@@ -46,6 +46,8 @@ class Seeker(Agent):
 class Swarm:
 	DASH = 10
 	agents: list[Agent]
+	visited: set[int] = set()
+	visited_hist: list[int] = []
 
 	def __init__(self, p: int, network: Network, scout_c = 0.5, **kwargs):
 		self.p = p
@@ -101,6 +103,9 @@ class Swarm:
 			self.iter_init()
 			for _ in range(steps):
 				self.step()
+				for agent in self.agents:
+					self.visited.add(agent.pos)
+					self.visited_hist.append(len(self.visited))
 			self.place(self.best_postition)
 
 			weight = self.weight()
@@ -117,5 +122,5 @@ class Swarm:
 			print('Distances', self.network.getDistanceList(self.best_postition))
 			print('Sum of distances', self.weight())
 
-		return (self.weight(), self.best_postition, weights)
+		return (self.weight(), self.best_postition, weights, self.visited_hist)
 
