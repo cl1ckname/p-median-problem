@@ -1,37 +1,11 @@
-# from beeSolution.utility.loader import Loader
 from swarm import *
-from utility import Network
-import matplotlib.pyplot as plt
+from utility import Network, SolutionRunner
 
 DASH = 10
-
-# loader = Loader('src/swarmSolution/data/OpM_LIB_2016/pmed17.txt.table.p25.A.txt')
-# data = loader.load()
-# network = Network(data)
-
-# network = Network([
-# 	[0, 7, 0 ,0, 0, 0, 4, 0, 0],
-# 	[7, 0, 8, 0, 0, 6, 0, 0, 0],
-# 	[0, 8, 0, 1, 4, 0, 0, 0, 0],
-# 	[0, 0, 0, 1, 0, 0, 0, 0, 0],
-# 	[0, 0, 4, 0, 0, 0, 3, 0, 5],
-# 	[0, 6, 0, 0, 0, 0, 0, 0, 0],
-# 	[4, 0, 0, 0, 3, 0, 0, 1, 0],
-# 	[0, 0, 0, 0, 0, 0, 1, 0, 4],
-# 	[0, 0, 0, 0, 5, 0, 0, 4, 0]
-# ])
-# print(network.get_conjugate_vertices(6))
-# print(network.weight([0,1,2]))
 
 network = Network.random(200, 15000)
 
 swarm = Swarm(6, network, 0.5, attraction=10)
-swarm.init()
 
-_, _, weights, vis = swarm.run(200, 20, True)
-
-
-fig, ax = plt.subplots(2)
-ax[0].plot(weights)
-ax[1].plot(vis)
-plt.show()
+sol = SolutionRunner(swarm)
+sol.run(200, 20)
