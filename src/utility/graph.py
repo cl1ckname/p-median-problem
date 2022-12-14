@@ -58,6 +58,9 @@ class Network:
 			base.graph[e[0]][e[1]]['weight'] = randint(1, max_weight)
 		return base
 
+	def randomNode(self) -> int:
+		return randint(0, self.graph.number_of_nodes()-1)
+		
 	def draw(self):
 		G = self.graph
 		# pos=nx.spring_layout(G,'pos')
