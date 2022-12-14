@@ -2,7 +2,7 @@
 
 The p-median problem is useful to model many real world situations such as the location of public or industrial facilities, warehouses and others. The p-median problem differs from the UFLP in two respects — there are no costs for opening facilities and there is an upper bound on the number of facilities that should be opened. It models the problem of finding a minimum cost clustering and belongs to the class of  NP hard problems in strong sense.
 
-<h2>How to install and run<h2>
+## How to install and run
 
 1. Copy the git repository
    
@@ -26,3 +26,11 @@ The p-median problem is useful to model many real world situations such as the l
    ```console
    foo@bar:~$ sh start.sh test
    ```
+
+## Todo
+
+- Add new methods
+- Add solution time benchmarks
+- Add ability to run solution using multiple cores
+- Add solution comparision
+- Add plots
