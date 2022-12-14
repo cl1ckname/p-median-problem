@@ -1,4 +1,4 @@
-from utility import Network
+from utility import Network, Solution, StepData
 from random import choice, randint, shuffle
 
 
@@ -43,11 +43,12 @@ class Seeker(Agent):
 	def step(self):
 		self.rotation()
 
-class Swarm:
+class Swarm(Solution):
 	DASH = 10
 	agents: list[Agent]
 	visited: set[int] = set()
 	visited_hist: list[int] = []
+	weights: list[int] = []
 
 	def __init__(self, p: int, network: Network, scout_c = 0.5, **kwargs):
 		self.p = p
@@ -61,8 +62,9 @@ class Swarm:
 
 
 		self.network = network
-		self.best_postition: list[int] = [-1] * p
-		self.best_weight: float = float('inf')
+		self.best_postition: list[int] = [0] * p
+		self.place(self.best_postition)
+		self.best_weight = self.weight()
 
 
 	def weight(self):
@@ -89,9 +91,22 @@ class Swarm:
 			agent.step()
 		
 		weight = self.weight()
+
+		for agent in self.agents:
+			self.visited.add(agent.pos)
+
 		if weight < self.best_weight:
 			self.best_weight = weight
 			self.best_postition = [a.pos for a in self.agents]
+		
+		return StepData(self.best_weight, self.best_postition)
+
+	def after_init(self):
+		self.visited_hist.append(len(self.visited))
+		self.place(self.best_postition)
+
+		weight = self.weight()
+		self.weights.append(weight)
 
 	def run(self, iters: int, steps: int, verbose=True):
 		weights: list[int] = []
@@ -103,17 +118,11 @@ class Swarm:
 			self.iter_init()
 			for _ in range(steps):
 				self.step()
-				for agent in self.agents:
-					self.visited.add(agent.pos)
-					
-			self.visited_hist.append(len(self.visited))
-			self.place(self.best_postition)
-
-			weight = self.weight()
-			weights.append(weight)
+				
+			self.after_init()
 
 			if verbose:
-				print('Sum of distances', weight)
+				print('Sum of distances', self.weights[-1])
 				print('Best position', self.best_postition)
 				print()
 

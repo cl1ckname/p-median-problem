@@ -1,8 +1,9 @@
 from utility import Network
 from random import randint, choice, choices
 from heapq import nsmallest
+from utility import Solution, StepData
 
-class Individual():
+class Individual:
 	def __init__(self, network: Network, init: list[int]) -> None:
 		self.network = network
 		self.positions = list(init)
@@ -24,7 +25,7 @@ class Individual():
 		return f'Individual[position: {self.positions}, weight: {self.weight}]'
 
 
-class GenePool():
+class GenePool(Solution):
 	pool: list[Individual]
 	parentProbs: list[float]
 
@@ -61,13 +62,27 @@ class GenePool():
 	def init(self):
 		pass
 
+	def iter_init(self):
+		pass
+
+	def after_init(self):
+		pass
+
+	def step(self):
+		childs = self.getChilds()
+		self.pool = childs
+		self.mutate()
+		self.calculateParentProps()
+		localBest = self.best()
+		return StepData(localBest.weight, localBest.positions)
+
 	def run(self, iters: int, steps: int, verbose=True):
 		bestIndivid = self.best()
 		print('Start', bestIndivid)
 
 		for i in range(iters):
-			if verbose:
-				print(f'=============Iter {i}=============')
+			# if verbose:
+			# 	print(f'=============Iter {i}=============')
 
 			for _ in range(steps):
 				childs = self.getChilds()
